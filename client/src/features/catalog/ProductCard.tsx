@@ -1,6 +1,7 @@
 import React from 'react'
 import { Product } from '../../app/models/Products';
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 interface props {
     product: Product;
@@ -35,7 +36,7 @@ const ProductCard = ({ product }: props) => {
                 </CardContent>
                 <CardActions>
                     <Button size="small">Add to cart</Button>
-                    <Button size="small">View</Button>
+                    <Button component={Link} to={`/catalog/${product.id}`} size="small">View</Button>
                 </CardActions>
             </Card>
         </>

@@ -1,6 +1,5 @@
-import React from 'react'
 import { Product } from '../../app/models/Products';
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 interface props {

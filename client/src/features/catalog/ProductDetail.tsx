@@ -1,29 +1,29 @@
-import { LoadingButton } from '@mui/lab';
-import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import agent from '../../app/api/agent';
-import { useStoreContext } from '../../app/context/StoreContext';
-import NotFound from '../../app/errors/NotFound';
-import LoadingComponent from '../../app/layout/Loading';
-import { Product } from '../../app/models/Products';
+import { LoadingButton } from "@mui/lab";
+import { Grid, Typography, Divider, TableContainer, Table, TableBody, TableRow, TableCell, TextField } from "@mui/material";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import agent from "../../app/api/agent";
+import NotFound from "../../app/errors/NotFound";
+import LoadingComponent from "../../app/layout/Loading";
+import { Product } from "../../app/models/Products";
+import { useAppSelector, useAppDispatch } from "../../app/store/configureStore";
+import { addBasketItemAsync, removeBasketItemAsync } from "../basket/basketSlice";
+import { fetchProductAsync, productSelectors } from "./catalogSlice";
+
 
 const ProductDetail = () => {
-  const { basket, setBasket } = useStoreContext();
+  const { basket, status } = useAppSelector(state => state.basket);
+  const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
+  const product = useAppSelector(state => productSelectors.selectById(state, id));
+  const {status: productStatus} = useAppSelector(state => state.catalog);
   const [quantity, setQuantity] = useState(0);
-  const [submitting, setsubmitting] = useState(false);
   const item = basket?.items.find(i => i.productId === product?.id)
 
   useEffect(() => {
     if (item) setQuantity(item.quantity);
-    agent.Catalog.details(parseInt(id!))
-      .then(response => setProduct(response))
-      .catch(error => console.log(error))
-      .finally(() => setLoading(false));
-  }, [id, item])
+    if (!product) dispatch(fetchProductAsync(parseInt(id)));
+  }, [id, item, dispatch, product])
 
   function handleInputChange(event: any) {
     if (event.target.value >= 0) {
@@ -32,23 +32,17 @@ const ProductDetail = () => {
   }
 
   function handleUpdateCart() {
-    setsubmitting(true);
     if (!item || quantity > item.quantity) {
       const updatedQuantity = item ? quantity - item.quantity : quantity;
-      agent.Basket.addItem(product?.id!, updatedQuantity)
-        .then(basket => setBasket(basket))
-        .catch(error => console.log(error))
-        .finally(() => setsubmitting(false))
+      dispatch(addBasketItemAsync({productId: product?.id!, quantity: updatedQuantity}))
     } else {
       const updatedQuantity = item.quantity - quantity;
-      agent.Basket.removeItem(product?.id!, updatedQuantity)
-        .then(() => removeItem(product?.id!, updatedQuantity))
-        .catch(error => console.log(error))
-        .finally(() => setsubmitting(false));
+      dispatch(removeBasketItemAsync({productId: product?.id!, quantity: updatedQuantity}))
     }
+
   }
 
-  if (loading) return <LoadingComponent message='Loading product...' />
+  if (productStatus.includes('pending')) return <LoadingComponent message='Loading product...' />
 
   if (!product) return <NotFound />
 
@@ -101,7 +95,7 @@ const ProductDetail = () => {
           <Grid item xs={6}>
             <LoadingButton
               disabled={item?.quantity === quantity || !item && quantity === 0}
-              loading={submitting}
+              loading={status.includes('pending')}
               onClick={handleUpdateCart}
               sx={{ height: '55px' }}
               color='primary'
@@ -116,10 +110,8 @@ const ProductDetail = () => {
       </Grid>
     </Grid>
   )
+
 }
+
 
 export default ProductDetail
-
-function removeItem(arg0: number, quantity: number): any {
-  throw new Error('Function not implemented.');
-}

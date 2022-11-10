@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using API.Data;
+using API.Entities;
 using API.middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API
 {
@@ -37,7 +40,11 @@ namespace API
             });
 
             services.AddCors();
-
+            services.AddIdentityCore<User>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<StoreContext>();
+            services.AddAuthentication();
+            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

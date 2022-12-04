@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     [DbContext(typeof(StoreContext))]
     partial class StoreContextModelSnapshot : ModelSnapshot
@@ -179,17 +179,17 @@ namespace API.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7b2451f7-3bcf-4600-9121-3f2ae51106a7",
-                            ConcurrencyStamp = "b3224346-56c1-4ef1-8631-968bf5198c7f",
+                            Id = "8697d86f-0a6f-4799-8ea2-064d4bcfc445",
+                            ConcurrencyStamp = "f7247955-e025-4d83-a61a-2b5c41fc2779",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = "8dbaeb79-4c3e-4367-baca-d61a603536b6",
-                            ConcurrencyStamp = "30ac6425-2f67-41ca-bd85-d8eddf627913",
-                            Name = "Member",
-                            NormalizedName = "MEMBER"
+                            Id = "5d835164-a78b-4e0c-be7c-d344edee7afc",
+                            ConcurrencyStamp = "ef3f0fca-9c37-4374-bc51-60e28cd2047c",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         });
                 });
 

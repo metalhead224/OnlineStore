@@ -1,6 +1,5 @@
-import { StaticDatePicker } from '@mui/lab'
 import { debounce, TextField } from '@mui/material'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/store/configureStore'
 import { setProductParams } from './catalogSlice'
 

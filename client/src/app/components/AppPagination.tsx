@@ -9,7 +9,7 @@ interface Props {
 
 const AppPagination = ({metaData, onPageChange}: Props) => {
 
-    const {currentPage, totalPages, totalCount, pageSize} = metaData;
+    const {currentPage,  totalCount, pageSize} = metaData;
 
   return (
     <div>

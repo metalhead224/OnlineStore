@@ -91,6 +91,11 @@ namespace API.Controllers
                 .FirstOrDefaultAsync(x => x.BuyerId == buyerId);
         }
 
+        private string GetBuyerId()
+        {
+            return User.Identity?.Name ?? Request.Cookies["buyerId"];
+        }
+
         private Basket CreateBasket()
         {
             var buyerId = User.Identity?.Name;
@@ -106,10 +111,7 @@ namespace API.Controllers
             return basket;
         }
 
-        private string GetBuyerId()
-        {
-            return User.Identity?.Name ?? Request.Cookies["buyerId"];
-        }
+        
 
     }
 }

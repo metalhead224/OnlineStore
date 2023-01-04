@@ -23,7 +23,7 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet(Name = "Get Basket")]
+        [HttpGet(Name = "GetBasket")]
         public async Task<ActionResult<BasketDto>> GetBasket()
         {
             var basket = await RetrieveBasket(GetBuyerId());

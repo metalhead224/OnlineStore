@@ -24,8 +24,8 @@ export const fetchBasketAsync = createAsyncThunk<Basket>(
   },
   {
     condition: () => {
-        if (!getCookie('buyerId')) return false;
-    }
+      if (!getCookie("buyerId")) return false;
+    },
   }
 );
 
@@ -63,7 +63,7 @@ export const basketSlice = createSlice({
     },
     clearBasket: (state) => {
       state.basket = null;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(addBasketItemAsync.pending, (state, action) => {
@@ -88,14 +88,20 @@ export const basketSlice = createSlice({
       state.status = "idle";
       console.log(action.payload);
     });
-    builder.addMatcher(isAnyOf(addBasketItemAsync.fulfilled, fetchBasketAsync.fulfilled), (state, action) => {
+    builder.addMatcher(
+      isAnyOf(addBasketItemAsync.fulfilled, fetchBasketAsync.fulfilled),
+      (state, action) => {
         state.basket = action.payload;
         state.status = "idle";
-      });
-      builder.addMatcher(isAnyOf(addBasketItemAsync.rejected, fetchBasketAsync.rejected), (state, action) => {
+      }
+    );
+    builder.addMatcher(
+      isAnyOf(addBasketItemAsync.rejected, fetchBasketAsync.rejected),
+      (state, action) => {
         state.status = "idle";
         console.log(action.payload);
-      });
+      }
+    );
   },
 });
 

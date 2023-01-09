@@ -25,20 +25,20 @@ import Register from "../account/Register";
 import Login from "../account/Login";
 import { fetchCurrentUser } from "../account/accountSlice";
 import PrivateRoute from "./PrivateRoute";
+import Orders from "../../features/orders/Orders";
 
 function App() {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
 
-  const initApp = useCallback(async () => 
-  {
+  const initApp = useCallback(async () => {
     try {
       await dispatch(fetchCurrentUser());
       await dispatch(fetchBasketAsync());
     } catch (error) {
       console.log(error);
     }
-  }, [dispatch])
+  }, [dispatch]);
 
   useEffect(() => {
     initApp().then(() => setLoading(false));
@@ -66,9 +66,7 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <ToastContainer
-          position="bottom-right"
-        />
+        <ToastContainer position="bottom-right" />
         <CssBaseline />
         <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
         <Container>
@@ -81,6 +79,7 @@ function App() {
             <Route path="/server-error" component={ServerError} />
             <Route path="/basket" component={BasketPage} />
             <PrivateRoute path="/checkout" component={CheckoutPage} />
+            <PrivateRoute path="/orders" component={Orders} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route component={NotFound} />

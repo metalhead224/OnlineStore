@@ -20,7 +20,7 @@ namespace API.Controllers
         private readonly UserManager<User> _userManager;
         private readonly StoreContext _context;
         private readonly TokenService _tokenService;
-        
+
         public AccountController(UserManager<User> userManager, TokenService tokenService, StoreContext context)
         {
             _tokenService = tokenService;
@@ -33,7 +33,7 @@ namespace API.Controllers
         {
             var user = await _userManager.FindByNameAsync(loginDto.Username);
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
-            return Unauthorized();
+                return Unauthorized();
 
             var userBasket = await RetrieveBasket(loginDto.Username);
             var annonBasket = await RetrieveBasket(Request.Cookies["buyerId"]);
@@ -58,11 +58,11 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDto registerDto)
         {
-            var user = new User{UserName = registerDto.Username, Email = registerDto.Email};
+            var user = new User { UserName = registerDto.Username, Email = registerDto.Email };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
                 {
@@ -76,7 +76,7 @@ namespace API.Controllers
 
             return StatusCode(201);
         }
-        
+
         [Authorize]
         [HttpGet("currentUser")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
@@ -90,6 +90,16 @@ namespace API.Controllers
                 Token = await _tokenService.GenerateToken(user),
                 Basket = userBasket?.MapBasketToDto(),
             };
+        }
+
+        [Authorize]
+        [HttpGet("savedAddress")]
+        public async Task<ActionResult<UserAddress>> GetSavevdAddress()
+        {
+            return await _userManager.Users
+            .Where(x => x.UserName == User.Identity.Name)
+            .Select(user => user.Address)
+            .FirstOrDefaultAsync();
         }
 
         private async Task<Basket> RetrieveBasket(string buyerId)

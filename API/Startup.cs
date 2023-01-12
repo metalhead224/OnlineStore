@@ -52,7 +52,7 @@ namespace API
                             Reference = new OpenApiReference
                             {
                                Type = ReferenceType.SecurityScheme,
-                               Id = "Bearer" 
+                               Id = "Bearer"
                             },
                             Scheme = "oauth2",
                             Name = "Bearer",
@@ -73,10 +73,10 @@ namespace API
             {
                 opt.User.RequireUniqueEmail = true;
             })
-                .AddRoles<IdentityRole>()
+                .AddRoles<Role>()
                 .AddEntityFrameworkStores<StoreContext>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(opt => 
+                .AddJwtBearer(opt =>
                 {
                     opt.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -91,6 +91,7 @@ namespace API
 
             services.AddAuthorization();
             services.AddScoped<TokenService>();
+            services.AddScoped<PaymentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

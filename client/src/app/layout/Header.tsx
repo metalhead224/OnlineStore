@@ -64,7 +64,7 @@ const Header = ({ darkMode, handleThemeChange }: props) => {
               to="/"
               sx={{ color: "inherit", textDecoration: "none" }}
             >
-              RE-STORE
+              OSTI-STORE
             </Typography>
             <Switch checked={darkMode} onClick={handleThemeChange} />
           </Box>

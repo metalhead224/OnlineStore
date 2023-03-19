@@ -16,6 +16,7 @@ using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using System.Collections.Generic;
+using API.RequestHelpers;
 
 namespace API
 {
@@ -33,6 +34,7 @@ namespace API
         {
 
             services.AddControllers();
+            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });

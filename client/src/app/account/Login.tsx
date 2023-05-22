@@ -1,20 +1,18 @@
 import Avatar from "@mui/material/Avatar";
-import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Paper } from "@mui/material";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Paper, TextField, Typography } from "@mui/material";
 import { FieldValues, useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { useAppDispatch } from "../store/configureStore";
 import { signInUser } from "./accountSlice";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const history = useHistory();
-  const location = useLocation<any>();
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const {
     register,
@@ -27,7 +25,7 @@ export default function Login() {
   async function submitForm(data: FieldValues) {
     try {
       await dispatch(signInUser(data));
-      history.push(location.state?.from?.pathname || "/catalog");
+      navigate(location.state?.from?.pathname || "/catalog");
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +68,7 @@ export default function Login() {
             autoFocus
             {...register("username", { required: "Username is required" })}
             error={!!errors.username}
-            helperText={errors?.username?.message?.toString()}
+            helperText={errors?.username?.message as string}
           />
           <TextField
             margin="normal"
@@ -79,7 +77,7 @@ export default function Login() {
             type="password"
             {...register("password", { required: "Password is required" })}
             error={!!errors.password}
-            helperText={errors?.username?.message?.toString()}
+            helperText={errors?.username?.message as string}
           />
           <LoadingButton
             loading={isSubmitting}

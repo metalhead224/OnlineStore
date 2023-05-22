@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../app/store/configureStore';
 import { setPageNumber, setProductParams } from './catalogSlice';
 import ProductList from './ProductList';
 import ProductSearch from './ProductSearch';
-import useProducs from '../../app/hooks/useProducts';
+import useProducts from '../../app/hooks/useProducts';
 
 const sortOptions = [
   { value: 'name', label: 'Alphabetical' },
@@ -17,7 +17,7 @@ const sortOptions = [
 
 
 const Catalog = () => {
-  const {products, brands, types, filtersLoaded, metaData} = useProducs();
+  const {products, brands, types, filtersLoaded, metaData} = useProducts();
   const { productParams } = useAppSelector(state => state.catalog);
   const dispatch = useAppDispatch();
 

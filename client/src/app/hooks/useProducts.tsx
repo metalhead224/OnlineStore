@@ -6,7 +6,7 @@ import {
 } from "../../features/catalog/catalogSlice";
 import { useAppSelector, useAppDispatch } from "../store/configureStore";
 
-export default function useProducs() {
+export default function useProducts() {
   const products = useAppSelector(productSelectors.selectAll);
   const { productsLoaded, filtersLoaded, brands, types, metaData } =
     useAppSelector((state) => state.catalog);

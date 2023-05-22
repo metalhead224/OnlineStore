@@ -1,12 +1,10 @@
 import Avatar from "@mui/material/Avatar";
-import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Paper } from "@mui/material";
-import { Link, useHistory } from "react-router-dom";
+import { Paper, TextField, Typography } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import agent from "../api/agent";
@@ -14,8 +12,7 @@ import { toast } from "react-toastify";
 
 export default function Register() {
 
-const history = useHistory();
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -69,7 +66,7 @@ const history = useHistory();
             agent.Account.register(data)
             .then(()=> {
               toast.success('Registration complete you can now login!');
-              history.push('/login');
+              navigate('/login');
             })
             .catch((error) => {
               handleApiErrors(error);
@@ -85,7 +82,7 @@ const history = useHistory();
             autoFocus
             {...register("username", { required: "Username is required" })}
             error={!!errors.username}
-            helperText={errors?.username?.message?.toString()}
+            helperText={errors?.username?.message as string}
           />
           <TextField
             margin="normal"
@@ -99,7 +96,7 @@ const history = useHistory();
               }
             })}
             error={!!errors.email}
-            helperText={errors?.username?.message?.toString()}
+            helperText={errors?.username?.message as string}
           />
           <TextField
             margin="normal"

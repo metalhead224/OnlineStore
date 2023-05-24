@@ -51,6 +51,10 @@ axios.interceptors.response.use(
         toast.error(data.title);
         break;
 
+      case 403:
+        toast.error('You are not authorized to do that');
+        break;
+
       case 500:
         router.navigate('/server-error', {state: {error: data}})
         break;
@@ -71,11 +75,11 @@ const requests = {
   postForm: (url: string, data: FormData) =>
     axios.post(url, data, {
       headers: { "Content-type": "multipart/form-data" },
-    }),
+    }).then(responseBody),
   putForm: (url: string, data: FormData) =>
     axios.put(url, data, {
       headers: { "Content-type": "multipart/form-data" },
-    }),
+    }).then(responseBody),
 };
 
 function createFormData(item: any) {
